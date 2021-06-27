@@ -4,10 +4,10 @@ from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 
 url = 'https://www.amazon.com.br/'
-search = 'placa de vídeo nvidia'
+search = 'livro de programação'
 
 option = Options()
-option.headless = False
+option.headless = True
 driver = webdriver.Firefox(options=option)
 
 driver.get(url)
