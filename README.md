@@ -8,13 +8,13 @@ Install the dependencies:
 > pip install lxml bs4 selenium
 
 Also, for running the firefox webdriver, you must install geckodriver:
-> wget https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz
+> `wget https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz`
 
-> tar -xvzf geckodriver*
+> `tar -xvzf geckodriver*`
 
-> chmod +x geckodriver
+> `chmod +x geckodriver`
 
-> sudo mv geckodriver /usr/local/bin/
+> `sudo mv geckodriver /usr/local/bin/`
 
 Then, just run it with:
 > python main.py
