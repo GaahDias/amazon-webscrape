@@ -1,13 +1,8 @@
 import json
 import sys
-import geckodriver_autoinstaller
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
-
-
-
-geckodriver_autoinstaller.install() 
 
 url = 'https://www.amazon.com.br/'+ sys.argv[1]
 search = 'livro de programação'
@@ -44,5 +39,4 @@ for i in range(len(products_html)):
 driver.quit()
 
 with open('data.json', 'w') as data:
-    json.dump(products_list, data, indent=4)
-    print(products_list)
+    json.dump(products_list, data, indent=4, ensure_ascii=False)
