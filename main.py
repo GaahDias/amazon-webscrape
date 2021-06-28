@@ -4,7 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 
 url = 'https://www.amazon.com.br/'
-search = 'livro de programação'
+search = 'guitarra'
 
 option = Options()
 option.headless = True
@@ -38,4 +38,6 @@ for i in range(len(products_html)):
 driver.quit()
 
 with open('data.json', 'w') as data:
-    json.dump(products_list, data, indent=4)
+    json.dump(products_list, data, indent=4, ensure_ascii=False)
+
+print('\u00e7' == 'U+00E7')
