@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon Web Scrapping</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100%;
+            height: 100vh;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .content {
+            margin-top: 15rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        h1 {
+            margin: 20px 0px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        input {
+            width: 250px;
+            padding: 7px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            cursor: pointer;
+            padding: 14px 28px;
+            background-color: #222;
+            color: whitesmoke;
+            border: none;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <h1>Pesquisar produto: </h1>
+
+        <form method="POST" action="/searchProduct" onsubmit="sendSearch(event)">
+            <input type="text" name="productName" placeholder="Nome do produto">
+            <button type="submit">Pesquisar</button>
+        </form>
+
+
+        <div id="result">
+
+        </div>
+    </div>
+
+    <script>
+
+        const sendSearch = (frm) => {
+
+            frm.preventDefault()
+
+            // e.target.action = "http://localhost:3000/searchProduct"
+            // e.target.method = "POST"
+            var productName = frm.target.productName.value
+
+            if (productName == '') {
+                alert("Por favor digite algo")
+                frm.target.productName.value = ""
+                return false
+            }
+
+            if (productName.trim().length < 2) {
+
+                alert("Por favor digite um nome válido")
+                frm.target.productName.value = ""
+                return false
+            }
+
+            if(productName.indexOf('<') !== -1 || productName.indexOf('>') !== -1) {
+                alert("Por favor não digite caracteres especiais")
+                frm.target.productName.value = ""
+                return false
+            }
+
+            else {
+                fetch('http://localhost:3000/searchProduct', {
+                    method: "post",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ productName: productName })
+                })
+                    .then(result => result.json())
+                    .then(response => {
+
+                        console.log(response)
+                        document.getElementById('result').innerHTML = response
+                    })
+            }
+
+
+            // frm.target.submit()
+
+        }
+    </script>
+</body>
+
+</html

@@ -1,0 +1,27 @@
+{
+  "name": "amazon-webscrape",
+  "version": "1.0.0",
+  "description": "Web Scrape to get data from Amazon´s site",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GaahDias/amazon-webscrape.git"
+  },
+  "author": "GaahDias && Livrodjx",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GaahDias/amazon-webscrape/issues"
+  },
+  "homepage": "https://github.com/GaahDias/amazon-webscrape#readme",
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
