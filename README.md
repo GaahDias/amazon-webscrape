@@ -17,4 +17,4 @@ Also, for running the firefox webdriver, you must install geckodriver:
 > `sudo mv geckodriver /usr/local/bin/`
 
 Then, just run it with:
-> python main.py
+> python main.py *search_parameter*
