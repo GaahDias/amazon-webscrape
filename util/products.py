@@ -1,28 +1,7 @@
 from time import sleep
 from bs4 import BeautifulSoup
-from selenium import webdriver
-from selenium.common import exceptions as selenium_err
-from selenium.webdriver.firefox.options import Options
+from .search import perform_search
 
-# Setting web driver options
-option = Options()
-option.headless = True
-
-def perform_initial_search(search):
-    driver = webdriver.Firefox(options=option)
-    url = 'https://www.amazon.com.br/'
-    driver.get(url)
-
-    try:
-        # Send search to Amazon's search bar
-        driver.find_element_by_id('twotabsearchtextbox').send_keys(search)
-        #Clicks to perform search
-        driver.find_element_by_id('nav-search-submit-button').click()
-    except selenium_err.NoSuchElementException:
-        raise Exception("Error: no such HTML element")
-    else:
-        return driver
-        
 def product_template(soup):
     # Get data in the html with BeautifulSoup
     title = soup.find('span', class_='a-size-base-plus a-color-base a-text-normal')
@@ -43,12 +22,12 @@ def product_template(soup):
         
 def get_products(search, **kwargs):
     products_list = []
-    driver = perform_initial_search(search)
+    driver = perform_search(search)
     
     # Loop through pages
     for i in range(kwargs['pages'] if kwargs else 10):
         # Sleep so the page can load
-        sleep(0.85)
+        sleep(1)
         
         try:
             # Get next page element
