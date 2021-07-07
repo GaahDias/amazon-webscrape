@@ -1,4 +1,3 @@
-from time import sleep
 from bs4 import BeautifulSoup
 from .search import perform_search
 
@@ -28,13 +27,13 @@ def get_products(search, **kwargs):
     for i in range(kwargs['pages'] if kwargs else 10):
         products_list = []
         # Sleep so the page can load
-        sleep(1)
+        driver.implicitly_wait(1)
         
         try:
             # Get next page element
             next_page = driver.find_element_by_xpath("//li[@class='a-last']//a")
         except:
-            print("Last page")
+            print("WARNING: Last page")
             next_page = False
         finally:
             # Getting container with products data, and adding a new 'page' to products_list
@@ -55,5 +54,6 @@ def get_products(search, **kwargs):
             else:
                 break
             
+    print('Quitting application...')
     driver.quit()
     return products_dict
