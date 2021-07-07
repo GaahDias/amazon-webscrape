@@ -1,4 +1,4 @@
-# Amazon WS
+# Amazon Web Scraping
 
 ### Simple webscrape for getting data about Amazon products. Made with Selenium (using firefox webdriver), and BeautifulSoup.
 
