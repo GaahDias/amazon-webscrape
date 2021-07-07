@@ -21,11 +21,12 @@ def product_template(soup):
     return product
         
 def get_products(search, **kwargs):
-    products_list = []
+    products_dict = {}
     driver = perform_search(search)
     
     # Loop through pages
     for i in range(kwargs['pages'] if kwargs else 10):
+        products_list = []
         # Sleep so the page can load
         sleep(1)
         
@@ -38,7 +39,6 @@ def get_products(search, **kwargs):
         finally:
             # Getting container with products data, and adding a new 'page' to products_list
             products_html = driver.find_elements_by_xpath("//div[@class='a-section a-spacing-medium']")
-            products_list.append([])
 
             # Loop through all products in page
             for j in range(len(products_html)):
@@ -46,7 +46,9 @@ def get_products(search, **kwargs):
                 html_content = products_html[j].get_attribute('innerHTML')
                 soup = BeautifulSoup(html_content, 'lxml')
                 
-                products_list[i].append(product_template(soup))
+                products_list.append(product_template(soup))
+            
+            products_dict[f'page{i+1}'] = products_list
             # Check if there's a next page, if not, quits driver and returns the list
             if next_page:
                 next_page.click()
@@ -54,4 +56,4 @@ def get_products(search, **kwargs):
                 break
             
     driver.quit()
-    return products_list
+    return products_dict
