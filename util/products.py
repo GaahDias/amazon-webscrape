@@ -1,5 +1,8 @@
-from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import TimeoutException
 
 def product_template(soup):
     # Get data in the html with BeautifulSoup
@@ -19,45 +22,65 @@ def product_template(soup):
     
     return product
 
-def get_page_data(driver, url):
-    driver.get(url)
+def get_page_data(driver):
     products_list = []
-    # Getting container with products data, and adding a new 'page' to products_list
-    products_html = driver.find_elements_by_xpath("//div[@class='a-section a-spacing-medium']")
-
+    seconds = 2.5
+    
+    try:
+        # Waits until the page is loaded to get the HTML
+        WebDriverWait(driver, seconds).until(EC.presence_of_element_located((By.XPATH, "//li[@class='a-selected']//a")))
+        products_html = driver.find_elements_by_xpath("//div[@class='a-section a-spacing-medium']")
+    except TimeoutException:
+        print("ABORTING: Page loading took too much time.")
+        return "ERROR: Can't load page."
+        
     # Loop through all products in page
     for i in range(len(products_html)):
         print(f'Getting {i} products')
-        html_content = products_html[i].get_attribute('innerHTML')
-        soup = BeautifulSoup(html_content, 'lxml')
+        product_html = products_html[i].get_attribute('innerHTML')
+        soup = BeautifulSoup(product_html, 'lxml')
         
         products_list.append(product_template(soup))
         
     return products_list
 
         
-def get_products(driver, **kwargs):
+def get_products(driver):
     products_dict = {}
     
-    # Loop through pages
-    for i in range(kwargs['pages'] if kwargs else 10):
-        # Sleep so the page can load
-        driver.implicitly_wait(1)
+    # Loop through three pages, and get products info
+    for i in range(3):
+        print(f"PAGE {i}:")
+        products_dict[f'page{i+1}'] = get_page_data(driver)
         
+    print('Quitting application...')
+    driver.quit()
+    return products_dict
+            
+        
+def get_products_by_page(driver, page):
+    products_dict = {}
+    # Sleep so the page can load
+    page_index = ''
+    
+    if page > 5:
+        page = 5
+    
+    while page_index != str(page):
         try:
-            # Get next page element
+            # Get pages info
             next_page = driver.find_element_by_xpath("//li[@class='a-last']//a")
+            page_index = driver.find_element_by_xpath("//li[@class='a-selected']//a").text
         except Exception:
-            print("WARNING: Last page")
             next_page = False
         finally:
             # Check if there's a next page, if not, quits driver and returns the dict
             if next_page:
-                driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 't') 
-                products_dict[f'page{i+1}'] = get_page_data(driver, next_page.get_attribute("href"))
-            else:
-                break
+                next_page.click()
+    
+    products_dict[f'page{page_index}'] = get_page_data(driver)
             
     print('Quitting application...')
     driver.quit()
     return products_dict
+    

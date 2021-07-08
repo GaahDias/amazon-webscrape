@@ -6,10 +6,12 @@ from selenium.webdriver.firefox.options import Options
 option = Options()
 option.headless = True
 
+url = 'https://www.amazon.com.br/'
+
 def perform_search(search):
     driver = webdriver.Firefox(options=option)
-    url = 'https://www.amazon.com.br/'
     driver.get(url)
+    print("Opening browser...")
 
     try:
         # Send search to Amazon's search bar
