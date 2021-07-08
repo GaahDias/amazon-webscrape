@@ -60,7 +60,6 @@ def get_products(driver):
         
 def get_products_by_page(driver, page):
     products_dict = {}
-    # Sleep so the page can load
     page_index = ''
     
     if page > 5:
