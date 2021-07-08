@@ -49,4 +49,4 @@ Then, just run with:
 > `flask run`
 
 After that, you can test the API on your browser, Insomnia, or via console with:
->`curl IP/search-product/name/page`  
+>`curl address/search-product/name/page`  
