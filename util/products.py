@@ -1,5 +1,4 @@
 from bs4 import BeautifulSoup
-from time import sleep
 
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import WebDriverWait
